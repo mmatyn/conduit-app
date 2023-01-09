@@ -1,11 +1,17 @@
 import classNames from "classnames"
+import { useNavigate } from "react-router";
 import { Button } from "../Button/Button"
+import { useAuth } from "../hooks/useAuth";
 type UserInfoProps = {
     image: string,
     username: string,
     bio: string,
 }
 export const UserInfo = ({image, username, bio}: UserInfoProps) => {
+    
+    const {user} = useAuth();
+    const navigate = useNavigate();
+    
     return(
         <div className="user-info">
             <div className="container">
@@ -16,10 +22,20 @@ export const UserInfo = ({image, username, bio}: UserInfoProps) => {
                         <p>
                             {bio}
                         </p>
-                        <Button className={classNames("btn", "btn-sm", "btn-outline-secondary", "action-btn")}>
-                            <i className="ion-plus-round"/>
-                            &nbsp; Follow {username}
-                        </Button>
+                        {
+                            user.username === username ?
+                            <Button className={classNames("btn", "btn-sm", "btn-outline-secondary", "action-btn")}
+                                onClick={() => navigate('/settings')}>
+                                <i className="ion-gear-a"/>
+                                &nbsp; Edit Profile Settings
+                            </Button>
+                            :
+                            <Button className={classNames("btn", "btn-sm", "btn-outline-secondary", "action-btn")}
+                                onClick={() => {}}>
+                                <i className="ion-plus-round"/>
+                                &nbsp; Follow {username}
+                            </Button>
+                        }
                     </div>
                 </div>
             </div>

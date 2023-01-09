@@ -3,7 +3,7 @@ import { article } from "../models/article";
 import { comment } from "../models/comment";
 
 export function useArticle(slug: string) {
-
+    
     const [article, setArticle] = useState<article>({
         slug:"",
         author: {

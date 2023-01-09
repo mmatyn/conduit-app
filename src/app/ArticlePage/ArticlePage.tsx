@@ -3,33 +3,57 @@ import { useParams } from "react-router"
 import { NavLink } from "react-router-dom"
 import { ArticleMeta } from "../ArticleMeta/ArticleMeta"
 import { Button } from "../Button/Button"
-import { Footer } from "../Footer/Footer"
-import { Header } from "../Header/Header"
 import { Banner } from "../HomePage/Banner/Banner"
 import { useArticle } from "../hooks/useArticle"
 import { Comment } from "../Comment/Comment"
+import { PageContainer } from "../PageContainer/PageContainer"
+import { useAuth } from "../hooks/useAuth"
 
 export const ArticlePage = () => {
 
     const { slug } = useParams();
     const { article, comments } = useArticle(slug!);
 
-    const isAuthenticated = false;
+    const {isConnected} = useAuth();
+
+    const handleEdit = () => {
+        
+    }
     return(
-        <>
-            <Header/>
+        <PageContainer>
             <div className="article-page">
                 <Banner title={article.title}>
                     <ArticleMeta username={article.author.username} updatedAt={article.updatedAt} image={article.author.image}>
-                        <Button className={classNames("btn", "btn-outline-secondary", "btn-sm")} >
-                            <i className="ion-plus-round"/>
-                            &nbsp; Follow {article.author.username}
-                        </Button>
-                        &nbsp;&nbsp;
-                        <Button className={classNames("btn", "btn-outline-primary", "btn-sm")} >
-                            <i className="ion-heart"/>
-                            &nbsp; Favorite Article {`(${article.favoritesCount})`}
-                        </Button>
+                        {
+                            isConnected ?
+                            <>
+                                <Button className={classNames("btn", "btn-outline-secondary", "btn-sm")}
+                                    onClick={() => {}}>
+                                    <i className="ion-edit"/>
+                                    &nbsp; Edit Article
+                                </Button>
+                                &nbsp;&nbsp;
+                                <Button className={classNames("btn", "btn-outline-danger", "btn-sm")} 
+                                    onClick={() => {}}>
+                                    <i className="ion-trash-a"/>
+                                    &nbsp; Delete Article
+                                </Button>
+                            </>
+                            :
+                            <>
+                                <Button className={classNames("btn", "btn-outline-secondary", "btn-sm")}
+                                    onClick={() => {}}>
+                                    <i className="ion-plus-round"/>
+                                    &nbsp; Follow {article.author.username}
+                                </Button>
+                                &nbsp;&nbsp;
+                                <Button className={classNames("btn", "btn-outline-primary", "btn-sm")} 
+                                    onClick={() => {}}>
+                                    <i className="ion-heart"/>
+                                    &nbsp; Favorite Article {`(${article.favoritesCount})`}
+                                </Button>
+                            </>
+                        }
                     </ArticleMeta>
                 </Banner>
 
@@ -53,22 +77,43 @@ export const ArticlePage = () => {
                     <hr/>
                     <div className="article-actions">
                         <ArticleMeta username={article.author.username} updatedAt={article.updatedAt} image={article.author.image}>
-                            <Button className={classNames("btn", "btn-outline-secondary", "btn-sm")} >
-                                <i className="ion-plus-round"/>
-                                &nbsp; Follow {article.author.username}
-                            </Button>
-                            &nbsp;&nbsp;
-                            <Button className={classNames("btn", "btn-outline-primary", "btn-sm")} >
-                                <i className="ion-heart"/>
-                                &nbsp; Favorite Article {`(${article.favoritesCount})`}
-                            </Button>
+                        {
+                            isConnected ?
+                            <>
+                                <Button className={classNames("btn", "btn-outline-secondary", "btn-sm")}
+                                    onClick={() => {}}>
+                                    <i className="ion-edit"/>
+                                    &nbsp; Edit Article
+                                </Button>
+                                &nbsp;&nbsp;
+                                <Button className={classNames("btn", "btn-outline-danger", "btn-sm")} 
+                                    onClick={() => {}}>
+                                    <i className="ion-trash-a"/>
+                                    &nbsp; Delete Article
+                                </Button>
+                            </>
+                            :
+                            <>
+                                <Button className={classNames("btn", "btn-outline-secondary", "btn-sm")}
+                                    onClick={() => {}}>
+                                    <i className="ion-plus-round"/>
+                                    &nbsp; Follow {article.author.username}
+                                </Button>
+                                &nbsp;&nbsp;
+                                <Button className={classNames("btn", "btn-outline-primary", "btn-sm")} 
+                                    onClick={() => {}}>
+                                    <i className="ion-heart"/>
+                                    &nbsp; Favorite Article {`(${article.favoritesCount})`}
+                                </Button>
+                            </>
+                        }
                         </ArticleMeta>
                     </div>
 
                     <div className="row">
                         <div className={classNames("col-xs", "col-md-8", "offset-md-2")}>
                             {
-                                isAuthenticated ? 
+                                isConnected ? 
                                 <>
                                     <form className={classNames("card", "comment-form")}>
                                         <div className="card-block">
@@ -95,7 +140,6 @@ export const ArticlePage = () => {
                 </div>
 
             </div>
-            <Footer/>
-        </>
+        </PageContainer>
     )
 }

@@ -22,10 +22,38 @@ export function useProfile(username: string){
         }
     }
 
+    async function follow(username: string){
+        try{
+            await fetch(`https://api.realworld.io/api/profiles/${username}`, {
+                method: 'POST',
+                headers : {
+                    'Authorization' : 'Token'
+                }
+            });
+        }
+        catch(e){
+            console.error(e);            
+        }
+    }
+
+    async function unfollow(username: string){
+        try{
+            await fetch(`https://api.realworld.io/api/profiles/${username}`, {
+                method: 'DELETE',
+                headers : {}
+            });
+        }
+        catch(e){
+            console.error(e);            
+        }
+    }
+
     useEffect(() => {
         GetProfile();
     }, [username])
     return{
         profile,
+        follow,
+        unfollow
     }
 }

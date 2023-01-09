@@ -1,8 +1,7 @@
 import { useState } from "react"
-import { Footer } from "../Footer/Footer"
-import { Header } from "../Header/Header"
 import { useArticles } from "../hooks/useArticles"
 import { useTags } from "../hooks/useTags"
+import { PageContainer } from "../PageContainer/PageContainer"
 import { ArticleList } from "./ArticleList/ArticleList"
 import { Banner } from "./Banner/Banner"
 import { FeedToggle } from "./FeedToggle/FeedToggle"
@@ -21,20 +20,17 @@ export const HomePage = () => {
         setOffset((newPage - 1) * 10);
     }
     return (
-        <>
-            <Header/>
+        <PageContainer>
             <div className="home-page">
                 <Banner title="conduit">
-                <p>A place to share your knowleged.</p>
+                    <p>A place to share your knowleged.</p>
                 </Banner>
 
                 <div className="container page">
                     <div className="row">
                         <div className="col-md-9">
                             <FeedToggle/>
-
                             <ArticleList articles={articles}/>
-
                             <Pagination 
                                 currentPage={currentPage}
                                 articlesCount={articlesCount}
@@ -45,7 +41,6 @@ export const HomePage = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
-        </>
+        </PageContainer>
     )
 }

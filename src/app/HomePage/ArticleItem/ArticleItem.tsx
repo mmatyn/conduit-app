@@ -1,7 +1,9 @@
 import classNames from "classnames"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { ArticleMeta } from "../../ArticleMeta/ArticleMeta"
 import { Button } from "../../Button/Button"
+import { useAuth } from "../../hooks/useAuth"
+import { useFavorites } from "../../hooks/useFavorites"
 import { article } from "../../models/article"
 
 type ArticleItemProps = {
@@ -9,10 +11,26 @@ type ArticleItemProps = {
 }
 
 export const ArticleItem = ({article}: ArticleItemProps) => {
+
+    const navigate = useNavigate();
+    const {isConnected} = useAuth();
+    const { setAsFavorite, deleteFromFavorite} = useFavorites();
+    const handleClick = () => {
+        if(isConnected)
+        {
+            if(article.favorited)
+                deleteFromFavorite(article.slug)
+            else
+                setAsFavorite(article.slug)
+        }
+        else
+            navigate('/register');
+    }
     return(
         <div className="article-preview">
             <ArticleMeta username={article.author.username} updatedAt={article.updatedAt} image={article.author.image}>
-                <Button className={classNames("btn", "btn-outline-primary", "btn-sm", "pull-xs-right")} >
+                <Button className={classNames("btn", "btn-outline-primary", "btn-sm", "pull-xs-right")} 
+                    onClick={handleClick}>
                     <i className="ion-heart"/> {article.favoritesCount}
                 </Button>
             </ArticleMeta>
